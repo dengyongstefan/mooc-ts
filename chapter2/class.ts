@@ -45,5 +45,12 @@
 // let p = new People('stefan',12)
 // p.doEat('apple')
 
+// const arr = [12]
+// console.log(typeof arr);
+// console.log(Object.prototype.toString.call(arr));
+
+// const map = new Map() 
+// console.log(typeof map);
+// console.log(Object.prototype.toString.call(map));
 
 export {}
