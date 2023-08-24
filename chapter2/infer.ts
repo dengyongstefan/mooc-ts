@@ -46,3 +46,5 @@ type ModulesSpliceKeys2<T> = {
 } [keyof T]
 type C = ModulesSpliceKeys2<Customer>
 // type C = "name/getName" | "name/getOrder" | "degree/getID" | "degree/getDegree"
+
+export {}
