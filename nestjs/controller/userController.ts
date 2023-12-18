@@ -1,17 +1,17 @@
-import { UserService } from '../service';
+import { UserServiceInterface } from '../service';
 import collection from '../collection';
 import { Autowired } from '../decorator'
 import 'reflect-metadata'
 
 class UserController{
 
-    @Autowired('useService')
-    private useService!: UserService
+    @Autowired('UserServiceImplement')
+    private useService!: UserServiceInterface
 
     public login():void{
         // let a:UserService = collection.get('useService')
         // a.register()
-        Reflect.getOwnPropertyDescriptor(UserController.prototype,'useService')?.value?.register()
+        Reflect.getOwnPropertyDescriptor(UserController.prototype,'UserServiceImplement')?.value?.register()
     }
 }
 
