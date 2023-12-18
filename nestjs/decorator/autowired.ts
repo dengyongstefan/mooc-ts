@@ -5,6 +5,7 @@ export  function Autowired(injectId:string):PropertyDecorator{
     return(targetClassPrototype,key)=>{
         let PropClass = Reflect.getMetadata("design:type",targetClassPrototype,key)
         let instance = new PropClass()
-        collection.set(injectId,instance)
+        // collection.set(injectId,instance)
+        Reflect.defineProperty(targetClassPrototype,key,{value:instance})
     }
 }

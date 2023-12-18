@@ -1,6 +1,7 @@
 import { UserService } from '../service';
 import collection from '../collection';
 import { Autowired } from '../decorator'
+import 'reflect-metadata'
 
 class UserController{
 
@@ -8,8 +9,9 @@ class UserController{
     private useService!: UserService
 
     public login():void{
-        let a:UserService = collection.get('useService')
-        a.register()
+        // let a:UserService = collection.get('useService')
+        // a.register()
+        Reflect.getOwnPropertyDescriptor(UserController.prototype,'useService')?.value?.register()
     }
 }
 
