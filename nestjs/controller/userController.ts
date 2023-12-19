@@ -1,11 +1,12 @@
 import { UserServiceInterface } from '../service';
 import collection from '../collection';
-import { Autowired } from '../decorator'
+import { AutoWired } from '../decorator'
 import 'reflect-metadata'
 
 class UserController{
 
-    @Autowired('UserServiceImplement')
+    @AutoWired('UserServiceImplement')
+    @AutoWired('UserServiceImplement')
     private useService!: UserServiceInterface
 
     public login():void{
