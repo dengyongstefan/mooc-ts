@@ -26,6 +26,7 @@ export class UserServiceImplement {
     static getInstance(){
         return this.selfInstance
     }
+    
     constructor(){
         console.log('========UserServiceImplement========');
     }
