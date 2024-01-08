@@ -22,18 +22,32 @@ class Promise<T=any>{
             console.log("reject===>value",value)
         }
     }
-    executor(this.resolve,this.reject)
+    try {
+        executor(this.resolve,this.reject)
+    } catch (error) {
+        console.log('executor_error======>',error!.toString());
+        this.status = 'pending'
+        this.reject(error!.toString())
+        throw new Error('程序终止')
+    }
   }
 
   then(resolveThen:ResolveType,rejectThen:RejectType){
-    if(this.status === 'success'){
-        resolveThen(this.resolve_executor_value)
-        console.log('resolveThen====>');
-    }
-    if(this.status === 'fail'){
-        rejectThen(this.reject)
-        console.log('rejectThen====>');
-    }
+    return new Promise((resolve,reject)=>{
+        let res = ''
+        console.log('this',this); // this 代表外层对象
+        if(this.status === 'success'){
+            res = resolveThen(this.resolve_executor_value)
+            resolve(res)
+            console.log('resolveThen====>');
+        }
+        if(this.status === 'fail'){
+            res = rejectThen(this.reject)
+            reject(res)
+            console.log('rejectThen====>');
+        }
+    })
+ 
   }
 }
 
