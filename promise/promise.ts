@@ -6,12 +6,16 @@ class Promise<T=any>{
   public status!:String
   public resolve_executor_value!: any
   public reject_executor_value!: any
+  public resolve_then_callbacks:(()=>void)[]= []
+  public reject_then_callbacks:(()=>void)[]= []
+
   constructor(executor:Executor) {
     this.status = 'pending'
     this.resolve = (value:any):any=>{
         if(this.status === 'pending'){
             this.status = 'success'
             this.resolve_executor_value = value
+            this.resolve_then_callbacks.forEach(callBack=>callBack());
             console.log("resolve===>value",value)
         }
     }
@@ -45,6 +49,14 @@ class Promise<T=any>{
             res = rejectThen(this.reject)
             reject(res)
             console.log('rejectThen====>');
+        }
+        if(this.status === 'pending'){
+            this.resolve_then_callbacks.push(()=>{
+                res = resolveThen(this.resolve_executor_value)
+            })
+            this.reject_then_callbacks.push(()=>{
+                res = rejectThen(this.resolve_executor_value)
+            })
         }
     })
  

@@ -1,7 +1,9 @@
 import Promise from './promise';
 
 const p = new Promise((resolve,reject)=>{
-    resolve('成功了')
+    setTimeout(() => {
+        resolve('成功了')
+    }, 5);
 })
 
 p.then((data)=>{
