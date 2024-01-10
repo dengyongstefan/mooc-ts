@@ -16,6 +16,24 @@ export class Store<S=any>{
     }
 }
 
+export class ModuleWrapper<S,R>{
+    children: Record<string,ModuleWrapper<any,R>> = {}
+    rawModule: Module<any,R>
+    state:S
+    namespace:boolean
+    constructor(rawModule_:Module<any,R>){
+        this.rawModule = rawModule_
+        this.state = rawModule_.state || Object.create(null)
+        this.namespace = rawModule_.namespace || false
+    }
+    addChild(key:string, moduleWrapper: ModuleWrapper<any,R>):void {
+        this.children[key] = moduleWrapper
+    }
+    getChild(key:string):ModuleWrapper<any,R>{
+        return this.children[key]
+    }
+}
+
 interface StoreOptions<S>{
     state?: S;
     getters?: GetterTree<S,S>;
@@ -29,6 +47,7 @@ interface ModuleTree<R>{
 }
 
 interface Module<S,R>{
+    namespace?:boolean;
     state?: S;
     getters?: GetterTree<S,R>;
     mutations?: MutationTree<S>;
