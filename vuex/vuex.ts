@@ -34,6 +34,38 @@ export class ModuleWrapper<S,R>{
     }
 }
 
+class ModuleCollection<R>{
+    root!:ModuleWrapper<any,R>
+    constructor(rawRootModule:Module<any,R>){
+        this.register([],rawRootModule)
+    }
+    register(path:string[],rawModule:Module<any,R>){
+        let newModule = new ModuleWrapper(rawModule)
+        if(path.length === 0){
+            // 主模块
+            this.root = newModule
+        }else{
+            let parentModule = this.get(path.slice(0,-1))
+            parentModule.addChild(path[path.length-1],newModule)
+        }
+        if(rawModule.modules){
+            let sonModule = rawModule.modules
+            Object.keys(sonModule).forEach(key => {
+                this.register(path.concat(key),sonModule)
+            })
+        }
+    }
+    get(path:string[]){
+        let module = this.root
+        return path.reduce(
+            (moduleWrapper:ModuleWrapper<any,R>,key:string)=>{
+                return module.getChild(key)
+            },
+            module   
+        )
+    }
+}
+
 interface StoreOptions<S>{
     state?: S;
     getters?: GetterTree<S,S>;
